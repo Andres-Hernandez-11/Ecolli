@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olvidé mi Contraseña</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="Estilos_Login_Registro.css"> <!-- Asegúrate de que este archivo CSS incluya los estilos anteriores -->
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Olvidé mi Contraseña</h2>
+        <form action="generar_codigo.php" method="post">
+            <div class="input-box">
+                <input type="email" id="email" name="email" placeholder="Correo Electrónico" required>
+                <i class='bx bxs-envelope'></i>
+            </div>
+            <button type="submit" class="btn">Enviar Código</button>
+        </form>
+    </div>
+</body>
+</html>
