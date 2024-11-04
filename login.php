@@ -2,6 +2,9 @@
 // Incluir el archivo de conexión
 require_once 'conexion.php';  // Asegúrate de que este archivo está en el mismo directorio
 
+// Inicializar la sesión
+session_start();
+
 // Inicializar una variable de mensaje vacía
 $message = "";
 
@@ -24,10 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (password_verify($password, $hashed_password)) {
             // Login exitoso
-            $message = "¡Inicio de sesión exitoso!";
-            // Evitar que el formulario cambie de página
+            $_SESSION['loggedin'] = true;  // Establecer la sesión
+            $_SESSION['username'] = $username;  // Almacenar el nombre de usuario en la sesión
+
             echo "<script>
-                alert('$message');
+                window.location.href = 'informacion.php';  // Redirige al home
             </script>";
         } else {
             // Contraseña incorrecta
@@ -50,12 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </script>";
     }
 
-    
-
     // Cerrar la conexión
     $stmt->close();
     $conn->close();
-
-    
 }
 ?>
