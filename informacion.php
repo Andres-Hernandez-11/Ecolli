@@ -20,7 +20,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 <body>
 <nav class="nav-superior">
         <a href="informacion.php"> <!-- Reemplaza con la URL deseada -->
-                <img src="IMAGES/LogoEcolli.jpg" alt="Logo" class="logo"> <!-- Reemplaza logo.png con la ruta de tu imagen -->
+                <img src="IMAGES/Logo2.jpg" alt="Logo" class="logo"> <!-- Reemplaza logo.png con la ruta de tu imagen -->
         </a>
     </nav>
     <!-- Navegación principal -->
@@ -28,8 +28,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <ul>
             <li><a href="informacion.php">Inicio</a></li>
             <li><a href="Mapa.php">Mapa</a></li>
-            <li><a href="#sintomas">Síntomas</a></li>
-            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="registrarSintomas.php">Registrar Síntomas</a></li>
             <li class="logout-container"><a href="logout.php" class="logout-btn">Cerrar sesión</a></li> 
         </ul>
     </nav>

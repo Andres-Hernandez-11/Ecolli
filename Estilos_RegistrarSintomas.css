@@ -1,57 +1,95 @@
-.contenido{
-    display:flex;
-    gap:20px;
-    justify-content: center;
-    padding: 20px;
-}
 
-.cuadro{
-    width: 400px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    overflow: hidden;
-    background-color: rgba(206, 206, 206);
-    border: 1px solid rgba(230, 216, 232, 0.5);
-    display: flex; 
-    flex-direction: column;
-}
 
-.cuadro-superior{
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    gap: 10px;
-}
-
-.texto-cuadro h3{
-    font-size: 1.1em;
-    margin-bottom: 3px;
-}
-
-.texto-cuadro p{
-    font-size: 0.9em;
-    color:gray;
-}
-
-.cuadro img{
+/* Estilo del contenedor */
+.container {
+    background-color: #ffffff;
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     width: 100%;
-    height: auto;
+    max-width: 400px;
+    text-align: left;
+    margin: auto;
+    margin-top: 50px;
 }
 
-.cuadro-contenido{
-    padding: 15px;
-}
-
-.cuadro-contenido h4{
-    font-size: 1.2em;
-    margin-bottom: 8px;
-}
-
-.cuadro-contenido p{
-    font-size: 0.9em;
+h1 {
+    font-size: 1.8em;
     color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+    
 }
 
+/* Estilo de campos de formulario */
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+legend {
+    font-weight: bold;
+    color: #0056b3;
+    padding: 0 5px;
+}
+
+label {
+    font-size: 1em;
+    color: #555;
+    display: block;
+    margin: 8px 0;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    margin-right: 8px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo de resultados */
+#resultado {
+    font-size: 1.4em;
+    color: #0056b3; /* Color azul oscuro para destacar */
+    background-color: #e6f0ff; /* Fondo azul claro */
+    padding: 15px 20px;
+    margin-top: 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    transition: transform 0.2s ease-in-out;
+}
+
+#resultado:hover {
+    transform: scale(1.05); /* Agranda el texto al pasar el cursor */
+}
 
 
 
@@ -68,7 +106,7 @@ body {
     display: flex; /* Utiliza flexbox para la alineación */
     justify-content: center; /* Espaciado entre elementos */
     align-items: center; /* Centra verticalmente */        
-    background-color: rgb(255, 255, 255); /* Fondo de la barra de navegación */
+    background-color: black; /* Fondo de la barra de navegación */
 }
 
 /* Estilo para el logo */
@@ -78,42 +116,6 @@ body {
     cursor: pointer;
 }
 
-/* Estilos para la navegación */
-.nav-inicio {
-    display: flex; /* Utiliza flexbox para alinear los elementos */
-    justify-content: center; /* Centra los elementos horizontalmente */
-    margin: 20px 0; /* Espacio arriba y abajo de la nav */
-}
-
-/* Estilos para la lista de navegación */
-.nav-inicio ul {
-    list-style-type: none; /* Elimina las viñetas */
-    padding: 0; /* Elimina el padding */
-    margin: 0; /* Elimina el margen */
-    display: flex; /* Utiliza flexbox para la alineación de los elementos de la lista */
-}
-
-/* Estilos para los elementos de la lista */
-.nav-inicio li {
-    margin: 0 15px; /* Espaciado entre los botones */
-}
-
-/* Estilos para los enlaces */
-.nav-inicio a {
-    text-decoration: none; /* Elimina el subrayado */
-    color: #007BFF; /* Color del texto */
-    padding: 10px 20px; /* Espaciado interno para el botón */
-    border: 2px solid #007BFF; /* Bordes del botón */
-    border-radius: 5px; /* Bordes redondeados */
-    transition: background-color 0.3s, color 0.3s; /* Transición suave para hover */
-
-}
-
-/* Efecto hover para los enlaces */
-.nav-inicio a:hover {
-    background-color: #007BFF; /* Color de fondo al pasar el mouse */
-    color: white; /* Color del texto al pasar el mouse */
-}
 
 .nav-principal{
     background-color: #001a52;
@@ -165,12 +167,6 @@ nav ul li a:hover {
 }
 
 
-/* Estilos para la sección con clase .titulo */
-.titulo {
-    text-align: center; /* Centra el contenido dentro de la sección */
-    margin: 20px 0; /* Espaciado superior e inferior */
-}
-
 /* Estilos para el encabezado */
 h1 {
     font-size: 2.5em; /* Tamaño de la fuente */
@@ -192,4 +188,26 @@ h1::after {
     background-color: #007BFF; /* Color de la línea */
     margin: 10px auto 0; /* Centra la línea decorativa */
     border-radius: 2px; /* Bordes redondeados para la línea */
+}
+
+#ubicacionButton {
+    padding: 12px;
+    background-color: #28a745; /* Verde para indicar acción importante */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+#ubicacionButton:hover {
+    background-color: #218838;
+}
+
+a {
+    text-decoration: none;
 }

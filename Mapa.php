@@ -155,8 +155,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <ul>
             <li><a href="informacion.php">Inicio</a></li>
             <li><a href="Mapa.php">Mapa</a></li>
-            <li><a href="#sintomas">Síntomas</a></li>
-            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="registrarSintomas.php">Registrar Síntomas</a></li>
             <li class="logout-container"><a href="logout.php" class="logout-btn">Cerrar sesión</a></li> 
         </ul>
     </nav>
@@ -170,100 +169,96 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     </div>
 
 
+
+
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        // Inicializa el mapa centrado en una ubicación específica sin duplicado horizontal
-// Inicializa el mapa centrado en una ubicación específica y con límites estrictos
-const map = L.map('map', {
-    center: [20, 0], // Centro inicial del mapa
-    zoom: 2,
-    minZoom: 2,
-    maxZoom: 18,
-    zoomControl: true,
-    maxBounds: [
-        [-85, -180],  // Esquina suroeste, ajusta según necesites
-        [85, 180]     // Esquina noreste
-    ],
-    maxBoundsViscosity: 1.0 // Establece la viscosidad en 1.0 para un bloqueo estricto
-});
+// Inicializar el mapa
+let map = L.map('map', {
+    minZoom: 2 // Establecer el máximo nivel de zoom
+}).setView([0, 0], 2); // Coordenadas de inicio y zoom (puedes cambiar a una ubicación predeterminada si prefieres)
 
-// Capa de OpenStreetMap
+// Añadir la capa de mapa base
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+// Coordenadas fijas (quemadas) que deseas mostrar
+const coordenadasFijas = [
+    [4.60971, -74.08175],  // Bogotá, Colombia
+    [6.25184, -75.56359],  // Medellín, Colombia
+    [3.43722, -76.5225],   // Cali, Colombia
+    [10.96854, -74.78132], // Cartagena, Colombia
+    [4.14325, -73.62535],  // Bucaramanga, Colombia
+
+    // Estados Unidos
+    [40.7128, -74.0060],   // Nueva York, EE. UU.
+    [34.0522, -118.2437],  // Los Ángeles, EE. UU.
+    [41.8781, -87.6298],   // Chicago, EE. UU.
+    [29.7604, -95.3698],   // Houston, EE. UU.
+
+    // Canadá
+    [45.4215, -75.6992],   // Ottawa, Canadá
+    [49.2827, -123.1207],  // Vancouver, Canadá
+    [43.6532, -79.3832],   // Toronto, Canadá
+
+    // África
+    [6.5244, 3.3792],      // Lagos, Nigeria
+    [12.9716, 77.5946],    // Bangalore, India (también se puede ubicar en África dependiendo de tus necesidades)
+    [1.2921, 36.8219]      // Nairobi, Kenia
+];
+
+// Añadir círculos rojos para las ubicaciones fijas
+coordenadasFijas.forEach(coord => {
+    L.circle(coord, {
+        color: 'red',
+        fillColor: 'red',
+        fillOpacity: 0.5,
+        radius: 300 // Ajusta el radio si lo necesitas
+    }).addTo(map)
+      .openPopup();
+});
+
+// Verificar si hay ubicaciones guardadas en el localStorage y mostrarlas en el mapa
+let ubicacionesGuardadas = JSON.parse(localStorage.getItem('ubicacionesUsuario')) || [];
+
+// Añadir círculos rojos para las ubicaciones del localStorage
+ubicacionesGuardadas.forEach(coord => {
+    L.circle(coord, {
+        color: 'red',
+        fillColor: 'red',
+        fillOpacity: 0.5,
+        radius: 300 // Ajusta el radio si lo necesitas
+    }).addTo(map)
+      .openPopup();
+});
+
+// Función para mostrar la ubicación del usuario en el mapa
+function mostrarUbicacionEnMapa(coordinates) {
+    // Mostrar un círculo rojo para la ubicación del usuario
+    L.circle(coordinates, {
+        color: 'red',
+        fillColor: 'red',
+        fillOpacity: 0.5,
+        radius: 300 // Ajusta el radio para la ubicación actual
+    }).addTo(map)
+      .bindPopup("Tu ubicación actual")
+      .openPopup();
+
+    // Hacer que el mapa se enfoque en la ubicación del usuario
+    map.setView(coordinates, 14);
+}
+
+// Añadir límites al mapa (paredes invisibles)
+const bounds = [
+    [ -90, -180 ], // Coordenada inferior izquierda
+    [ 90, 180 ]    // Coordenada superior derecha
+];
+
+// Establecer los límites para el mapa
+map.setMaxBounds(bounds);
 
 
-
-        // Array para almacenar múltiples coordenadas
-        const coordinates = [
-            [4.6097, -74.0817],  // Bogotá, Colombia
-            [6.2518, -75.5636],  // Medellín, Colombia
-            [10.9685, -74.7813], // Barranquilla, Colombia
-            [3.4372, -76.5225],  // Cali, Colombia
-            [5.0703, -75.5138],  // Manizales, Colombia
-            [40.7128, -74.0060], // Nueva York, Estados Unidos
-            [34.0522, -118.2437], // Los Ángeles, Estados Unidos
-            [51.5074, -0.1278],  // Londres, Reino Unido
-            [48.8566, 2.3522],   // París, Francia
-            [35.6895, 139.6917], // Tokio, Japón
-            [-33.8688, 151.2093], // Sídney, Australia
-            [55.7558, 37.6173],  // Moscú, Rusia
-            [39.9042, 116.4074], // Pekín, China
-            [19.4326, -99.1332], // Ciudad de México, México
-            [-23.5505, -46.6333], // São Paulo, Brasil
-            [37.7749, -122.4194], // San Francisco, Estados Unidos
-            [28.6139, 77.2090],  // Nueva Delhi, India
-            [52.5200, 13.4050],  // Berlín, Alemania
-            [41.9028, 12.4964],  // Roma, Italia
-            [1.3521, 103.8198],  // Singapur
-            [31.2304, 121.4737], // Shanghái, China
-            [-34.6037, -58.3816], // Buenos Aires, Argentina
-            [35.6762, 139.6503], // Osaka, Japón
-            [43.6532, -79.3832], // Toronto, Canadá
-            [25.276987, 55.296249], // Dubái, Emiratos Árabes Unidos
-            [55.6761, 12.5683],  // Copenhague, Dinamarca
-            [50.1109, 8.6821],   // Fráncfort, Alemania
-            [60.1699, 24.9384],  // Helsinki, Finlandia
-            [59.3293, 18.0686],  // Estocolmo, Suecia
-            [-22.9068, -43.1729], // Río de Janeiro, Brasil
-        ];
-
-
-        // Itera sobre las coordenadas y agrega un círculo en cada ubicación
-        coordinates.forEach(coord => {
-            L.circle(coord, {
-                color: 'red',
-                fillColor: 'red',
-                fillOpacity: 0.8,
-                radius: 200 // Puedes ajustar el radio para mejor visibilidad
-            }).addTo(map);
-        });
-
-        // Geolocalización del usuario
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => {
-                const userLocation = [position.coords.latitude, position.coords.longitude];
-
-                // Centra el mapa en la ubicación del usuario
-                map.setView(userLocation, 15);
-
-                // Agrega un círculo rojo en la ubicación del usuario
-                L.circle(userLocation, {
-                    color: 'red', // Color del borde
-                    fillColor: 'red', // Color de relleno
-                    fillOpacity: 0.8, // Opacidad
-                    radius: 200 // Radio para representar tu posición
-                }).addTo(map)
-                .bindPopup('Estás aquí')
-                .openPopup();
-            }, error => {
-                console.error("Error obteniendo la ubicación: ", error);
-            });
-        } else {
-            alert("La geolocalización no está soportada por este navegador.");
-        }
     </script>
 </body>
 </html>
